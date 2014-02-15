@@ -2,6 +2,7 @@
 namespace Lcvs;
 use Lcvs\Config\Database;
 use Lcvs\Dao\Movie;
+use Lcvs\Manager\Hire;
 
 /**
  * Class Factory
@@ -45,5 +46,15 @@ class Factory
 		$config = Database::get($name);
 
 		return new \PDO($config['dsn'], $config['userName'], $config['password']);
+	}
+
+	/**
+	 * Create hire manager
+	 *
+	 * @return Hire
+	 */
+	public function createHireManager()
+	{
+		return new Hire(new \Lcvs\Dao\Hire($this->createConnection()));
 	}
 } 

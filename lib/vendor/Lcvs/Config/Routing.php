@@ -15,6 +15,7 @@ class Routing
 			'Lcvs/Movie/Update' => array('url' => "/movie/(?'id'\d+)", 'method' => 'PUT'),
 			'Lcvs/Movie/Delete' => array('url' => "/movie/(?'id'\d+)", 'method' => 'DELETE'),
 			'Lcvs/Movie/Search' => array('url' => "/movie(?'queryString'[^/]+)", 'method' => 'GET'),
+			'Lcvs/Hire/List'    => array('url' => "/hire", 'method' => 'GET'),
 		);
 	}
 }
