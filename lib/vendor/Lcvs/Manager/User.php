@@ -23,12 +23,15 @@ class User
 	 * Insert to database
 	 *
 	 * @param array $data
+	 * @return int
 	 */
 	public function insert($data)
 	{
 		$user = $this->getUserFromData($data);
 		$this->validate($user);
 		$this->dao->insert($user);
+
+		return $user->getId();
 	}
 
 	/**

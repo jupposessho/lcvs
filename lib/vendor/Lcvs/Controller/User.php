@@ -20,7 +20,7 @@ class User extends BaseController
 		try {
 			$this->checkAdmin();
 			Factory::create()->createUserManager()->delete($request->getParameter('id'));
-			return new Response(array('success' => true));
+			return new Response(array('success' => true), 204);
 		} catch (\Exception $e) {
 			return new Response(array(
 				'success' => false,
@@ -39,8 +39,11 @@ class User extends BaseController
 	{
 		try {
 			$this->checkAdmin();
-			Factory::create()->createUserManager()->insert($request->getParameters());
-			return new Response(array('success' => true));
+			$userId = Factory::create()->createUserManager()->insert($request->getParameters());
+			return new Response(array(
+				'success' => true,
+				'id'      => $userId,
+			), 201);
 		} catch (\Exception $e) {
 			return new Response(array(
 				'success' => false,

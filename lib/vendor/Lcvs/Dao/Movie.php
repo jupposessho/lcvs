@@ -72,7 +72,6 @@ class Movie
 		if (!$result) {
 			throw new Database('Database error', 500);
 		}
-
 		$movie->setId($this->conn->lastInsertId());
 	}
 
@@ -166,7 +165,7 @@ class Movie
 		}
 
 		$stmt   = $this->conn->prepare($sql);
-		$result = $stmt->execute();
+		$result = $stmt->execute($params);
 		if (!$result) {
 			throw new Database('Database error', 500);
 		}

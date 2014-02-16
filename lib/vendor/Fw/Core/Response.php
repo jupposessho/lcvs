@@ -113,7 +113,7 @@ class Response
 			throw new \InvalidArgumentException(sprintf('The HTTP status code "%s" is not valid.', $code));
 		}
 
-		$usedCodes = array(200, 401, 403, 404);
+		$usedCodes = array(200, 201, 204, 401, 403, 404);
 		$this->statusCode = in_array($code, $usedCodes) ? (int) $code : 500;
 
 		return $this;

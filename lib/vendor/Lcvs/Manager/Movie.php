@@ -23,12 +23,15 @@ class Movie
 	 * Insert to database
 	 *
 	 * @param array $data
+	 * @return int
 	 */
 	public function insert($data)
 	{
 		$movie = $this->getMovieFromData($data);
 		$this->validate($movie);
 		$this->dao->insert($movie);
+
+		return $movie->getId();
 	}
 
 	/**
@@ -92,6 +95,10 @@ class Movie
 		if (false === filter_var($movie->getPrice(), FILTER_VALIDATE_FLOAT)) {
 			throw new \InvalidArgumentException('Price should be an number');
 		}
+
+		if (is_null($movie->getTitle())) {
+			throw new \InvalidArgumentException('Title must be set');
+		}
 	}
 
 	/**
@@ -147,7 +154,7 @@ class Movie
 		}
 
 		if (empty($search)) {
-			throw new \Exception('Title or category required');
+			throw new \Exception('Title or category required', 400);
 		}
 
 		return $this->dao->search($search);

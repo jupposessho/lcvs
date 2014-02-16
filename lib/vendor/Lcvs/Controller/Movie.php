@@ -20,7 +20,7 @@ class Movie extends BaseController
 		try {
 			$this->checkAdmin();
 			Factory::create()->createMovieManager()->delete($request->getParameter('id'));
-			return new Response(array('success' => true));
+			return new Response(array('success' => true), 204);
 		} catch (\Exception $e) {
 			return new Response(array(
 				'success' => false,
@@ -39,8 +39,11 @@ class Movie extends BaseController
 	{
 		try {
 			$this->checkAdmin();
-			Factory::create()->createMovieManager()->insert($request->getParameters());
-			return new Response(array('success' => true));
+			$id = Factory::create()->createMovieManager()->insert($request->getParameters());
+			return new Response(array(
+				'success' => true,
+				'id'      => $id,
+			), 201);
 		} catch (\Exception $e) {
 			return new Response(array(
 				'success' => false,
