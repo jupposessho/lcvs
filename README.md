@@ -1,13 +1,15 @@
 Low cost video store - REST API
-====
+========
 
 Installation
-- Run queries from sql/schema.sql
-- Run queries from sql/data.sql
-- Run queries from sql/with_history/schema.sql
-- Run queries from sql/with_history/data.sql
+
+ - Run queries from sql/schema.sql
+ - Run queries from sql/data.sql
+ - Run queries from sql/with_history/schema.sql
+ - Run queries from sql/with_history/data.sql
 
 Authentication:
+----
 Basic HTTP authentication
 
 Admin user:
@@ -20,6 +22,7 @@ Header for admin: "Authorization: Basic YWFAYWEuYWE6MTIz"
 password for all user: 123
 
 Examples:
+----
 
 Search movies by title includes "the":
 curl -i -H "Authorization: Basic YWFAYWEuYWE6MTIz" -H "Accept: application/json" -X
