@@ -3,6 +3,7 @@ namespace Lcvs;
 use Lcvs\Config\Database;
 use Lcvs\Dao\Movie;
 use Lcvs\Manager\Hire;
+use Lcvs\Manager\User;
 
 /**
  * Class Factory
@@ -45,7 +46,7 @@ class Factory
 	{
 		$config = Database::get($name);
 
-		return new \PDO($config['dsn'], $config['userName'], $config['password']);
+		return new \PDO($config['dsn'], $config['user'], $config['password']);
 	}
 
 	/**
@@ -57,4 +58,14 @@ class Factory
 	{
 		return new Hire(new \Lcvs\Dao\Hire($this->createConnection()));
 	}
-} 
+
+	/**
+	 * Create user manager
+	 *
+	 * @return User
+	 */
+	public function createUserManager()
+	{
+		return new User(new \Lcvs\Dao\User($this->createConnection()));
+	}
+}

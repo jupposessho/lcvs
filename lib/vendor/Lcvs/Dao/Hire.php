@@ -1,5 +1,6 @@
 <?php
 namespace Lcvs\Dao;
+use Fw\Core\Exception\Database;
 
 /**
  * Class Hire
@@ -21,6 +22,7 @@ class Hire
 	/**
 	 * Get hired movies
 	 *
+	 * @throws \Fw\Core\Exception\Database
 	 * @return \Lcvs\Entity\Hire[]
 	 */
 	public function getHired()
@@ -38,7 +40,10 @@ class Hire
 		";
 
 		$stmt = $this->conn->prepare($sql);
-		$stmt->execute();
+		$result = $stmt->execute();
+		if (!$result) {
+			throw new Database('Database error', 500);
+		}
 
 		return $stmt->fetchAll(\PDO::FETCH_OBJ);
 	}

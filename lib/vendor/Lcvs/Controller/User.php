@@ -7,10 +7,10 @@ use Fw\Core\Request;
 use Fw\Core\Response;
 use Lcvs\Factory;
 
-class Movie extends BaseController
+class User extends BaseController
 {
 	/**
-	 * Delete a movie
+	 * Delete a user
 	 *
 	 * @param Request $request
 	 * @return Response
@@ -19,7 +19,7 @@ class Movie extends BaseController
 	{
 		try {
 			$this->checkAdmin();
-			Factory::create()->createMovieManager()->delete($request->getParameter('id'));
+			Factory::create()->createUserManager()->delete($request->getParameter('id'));
 			return new Response(array('success' => true));
 		} catch (\Exception $e) {
 			return new Response(array(
@@ -30,7 +30,7 @@ class Movie extends BaseController
 	}
 
 	/**
-	 * Create a movie
+	 * Create a user
 	 *
 	 * @param Request $request
 	 * @return Response
@@ -39,7 +39,7 @@ class Movie extends BaseController
 	{
 		try {
 			$this->checkAdmin();
-			Factory::create()->createMovieManager()->insert($request->getParameters());
+			Factory::create()->createUserManager()->insert($request->getParameters());
 			return new Response(array('success' => true));
 		} catch (\Exception $e) {
 			return new Response(array(
@@ -50,7 +50,7 @@ class Movie extends BaseController
 	}
 
 	/**
-	 * Update a movie
+	 * Update a user
 	 *
 	 * @param Request $request
 	 * @return Response
@@ -59,30 +59,8 @@ class Movie extends BaseController
 	{
 		try {
 			$this->checkAdmin();
-			Factory::create()->createMovieManager()->update($request->getParameters());
+			Factory::create()->createUserManager()->update($request->getParameters());
 			return new Response(array('success' => true));
-		} catch (\Exception $e) {
-			return new Response(array(
-				'success' => false,
-				'error'   => $e->getMessage(),
-			), $e->getCode());
-		}
-	}
-
-	/**
-	 * Search for movie
-	 *
-	 * @param Request $request
-	 * @return Response
-	 */
-	public function executeSearch(Request $request)
-	{
-		try {
-			$movies = Factory::create()->createMovieManager()->search($request->getParameters());
-			return new Response(array(
-				'success' => true,
-				'movies'  => $movies,
-			));
 		} catch (\Exception $e) {
 			return new Response(array(
 				'success' => false,

@@ -21,6 +21,7 @@ class Hire extends BaseController
 	public function executeList(Request $request)
 	{
 		try {
+			$this->checkAdmin();
 			$hires = Factory::create()->createHireManager()->getHired();
 			return new Response(array(
 				'success' => true,
@@ -30,7 +31,7 @@ class Hire extends BaseController
 			return new Response(array(
 				'success' => false,
 				'error'   => $e->getMessage(),
-			));
+			), $e->getCode());
 		}
 	}
 } 

@@ -32,9 +32,11 @@ class Application
 		$action     = 'execute'.$actionName;
 		$controller = new $module($moduleName, $actionName);
 		if (!method_exists($controller, $action)) {
-			throw new \Exception(sprintf('Invalid action: %s in module %s', $actionName, $moduleName));
+			throw new \Exception(sprintf('Invalid action: %s in module %s', $actionName, $moduleName), 404);
 		}
 
+		/** @var BaseController $controller*/
+		$controller->authenticate($request);
 		/** @var Response $response */
 		$response = $controller->$action($request);
 		$response->send();
@@ -50,7 +52,7 @@ class Application
 		$response = new Response(array(
 			'success' => false,
 			'error'   => $e->getMessage(),
-		));
+		), $e->getCode());
 		$response->send();
 	}
 }

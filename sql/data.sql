@@ -29,8 +29,9 @@ VALUES
 	(13,9,'Silver Linings Playbook',1.69,5),
 	(14,9,'Along Came Polly',1.89,3);
 
-INSERT INTO `user` (`id`, `nick_name`, `first_name`, `last_name`, `email_address`, `salt`, `password`, `is_active`, `last_login`, `created_at`)
+INSERT INTO `user` (`id`, `nick_name`, `first_name`, `last_name`, `email_address`, `salt`, `password`, `is_admin`, `last_login`, `created_at`)
 VALUES
-	(1,'johndoe','John','Doe','johndoe@example.com','sjhcbwkcbwebvewjvbewjv','ifn349fgn283h4072fhf8',1,'2014-02-02 13:42:12','2014-02-02 13:41:12'),
-	(2,'janedoe','Jane','Doe','janedoe@example.com','s234kdsf34sdfdsjvbewjv','ifwr24249fgn283h4072fhf8',1,'2014-01-12 05:01:52','2014-01-12 03:41:12'),
-	(3,'janesmith','Jane','Smith','janesmith@example.com','s23jn34k53k53k5jvbewjv','kj435kj353k4j5h34k4072fhf8',0,'2014-01-11 15:01:52','2014-01-11 13:41:12');
+	(1, 'johndoe', 'John', 'Doe', 'johndoe@example.com', '47f44fdce2da3dd72f33f7abc8bb9abf', '1e98928d2def658ff8dd3d5277672b48e06ae836', 0, '2014-02-02 13:42:12', '2014-02-02 13:41:12'),
+	(2, 'janedoe', 'Jane', 'Doe', 'janedoe@example.com', '0100e73fc3855fbe95bf53882046e6e1', 'd132d5dcea48ae7177b351eadc00086710942f6c', 0, '2014-01-12 05:01:52', '2014-01-12 03:41:12'),
+	(3, 'janesmith', 'Jane', 'Smith', 'janesmith@example.com1', '63a23afd2d4a9c1871a586305e398ef3', '9f0cdfb426c733a6f9398d51df46978a91483284', 0, '2014-01-11 15:01:52', '2014-01-11 13:41:12'),
+	(4, 'admin', 'admin', 'admin', 'aa@aa.aa', '864cec83dc73522833b416161b91e144', '3c50839cc1ae7e06e93143a2a2cf0e86894661e7', 1, NULL, '2014-01-11 13:41:12');

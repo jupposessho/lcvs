@@ -35,3 +35,12 @@ get params
 
 list hires
 GET /hire HTTP/1.1
+
+Authentication:
+Basic HTTP authentication
+
+Admin user
+id: 4 username: aa@aa.aa password: 123
+Header for admin: "Authorization: Basic YWFAYWEuYWE6MTIz"
+
+password for all user: 123

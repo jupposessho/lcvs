@@ -24,6 +24,12 @@ class Request
 		$this->_parameters['method']   = $_SERVER['REQUEST_METHOD'];
 		$this->_parameters['protocol'] = $_SERVER['SERVER_PROTOCOL'];
 		$this->_parameters['uri']      = $_SERVER['REQUEST_URI'];
+		if (array_key_exists('PHP_AUTH_USER', $_SERVER)) {
+			$this->_parameters['authUser'] = $_SERVER['PHP_AUTH_USER'];
+			if (array_key_exists('PHP_AUTH_PW', $_SERVER)) {
+				$this->_parameters['authPass'] = $_SERVER['PHP_AUTH_PW'];
+			}
+		}
 	}
 
 	/**

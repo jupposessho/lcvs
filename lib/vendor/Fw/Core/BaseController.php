@@ -1,5 +1,8 @@
 <?php
 namespace Fw\Core;
+use Fw\Core\Exception\Authentication;
+use Lcvs\Entity\User;
+use Lcvs\Factory;
 
 /**
  * Class BaseController
@@ -13,8 +16,8 @@ class BaseController
 	/** @var string */
 	protected $actionName;
 
-	/** @var array */
-	protected $_var;
+	/** @var User */
+	protected $user;
 
 	/**
 	 * Construct method
@@ -26,36 +29,6 @@ class BaseController
 	{
 		$this->moduleName   = $moduleName;
 		$this->actionName   = $actionName;
-		$this->_var         = array();
-	}
-
-	/**
-	 * Set parameter to the template
-	 *
-	 * @param string $name
-	 * @param mixed $value
-	 */
-	protected function assign($name, $value)
-	{
-		$this->_var[$name] = $value;
-	}
-
-	/**
-	 * Get parameter value
-	 *
-	 * @param string $name
-	 * @return mixed
-	 */
-	public function getValue($name)
-	{
-		return isset($this->_var[$name]) ? $this->_var[$name] : null;
-	}
-
-	/**
-	 * Renders a template
-	 */
-	public function render()
-	{
 	}
 
 	/**
@@ -63,10 +36,52 @@ class BaseController
 	 *
 	 * @param string $url
 	 */
-	function redirect($url)
+	public function redirect($url)
 	{
 		header("307 Temporary Redirect HTTP/1.1");
 		header('location: ' . $url);
 		exit;
+	}
+
+	/**
+	 * Authenticate the user from request
+	 *
+	 * @param Request $request
+	 * @throws Exception\Authentication
+	 */
+	public function authenticate(Request $request)
+	{
+		if (!$request->hasParameter('authUser') || !$request->hasParameter('authPass')) {
+			throw new Authentication('Username and password required', 401);
+		}
+
+		$user = Factory::create()->createUserManager()->getByEmail($request->getParameter('authUser'));
+		if (!$user || !$user->checkPassword($request->getParameter('authPass'))) {
+			throw new Authentication('Invalid Username/password', 401);
+		}
+
+		$this->user = $user;
+	}
+
+	/**
+	 * Has admin credential - logged in user
+	 *
+	 * @return bool
+	 */
+	protected function hasAdminCredential()
+	{
+		return $this->user->getIsAdmin();
+	}
+
+	/**
+	 * Check if the logged in user is admin
+	 *
+	 * @throws Exception\Authentication
+	 */
+	protected function checkAdmin()
+	{
+		if (!$this->hasAdminCredential()) {
+			throw new Authentication('Admin credential required', 403);
+		}
 	}
 }

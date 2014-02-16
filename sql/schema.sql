@@ -18,13 +18,14 @@ CREATE TABLE `movie` (
 CREATE TABLE `user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary key',
   `nick_name` varchar(50) DEFAULT NULL COMMENT 'Nick name',
-  `first_name` varchar(128) NOT NULL COMMENT 'First name',
+  `first_name` varchar(128) DEFAULT NULL COMMENT 'First name',
   `last_name` varchar(128) DEFAULT NULL COMMENT 'Last name',
   `email_address` varchar(255) NOT NULL COMMENT 'Email address / login',
   `salt` varchar(128) NOT NULL COMMENT 'Salt for password',
   `password` varchar(128) NOT NULL COMMENT 'Salted password',
-  `is_active` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Whether active',
+  `is_admin` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Whether admin',
   `last_login` datetime DEFAULT NULL COMMENT 'Date of last login',
   `created_at` datetime NOT NULL COMMENT 'Date of registration',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email_address` (`email_address`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

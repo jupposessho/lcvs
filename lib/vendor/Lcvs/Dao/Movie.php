@@ -1,5 +1,6 @@
 <?php
 namespace Lcvs\Dao;
+use Fw\Core\Exception\Database;
 
 /**
  * Class Movie
@@ -22,6 +23,7 @@ class Movie
 	 * Get a movie by id
 	 *
 	 * @param int $id
+	 * @throws \Fw\Core\Exception\Database
 	 * @return mixed
 	 */
 	public function get($id)
@@ -39,7 +41,10 @@ class Movie
 
 		$stmt = $this->conn->prepare($sql);
 		$stmt->bindValue(':id', $id);
-		$stmt->execute();
+		$result = $stmt->execute();
+		if (!$result) {
+			throw new Database('Database error', 500);
+		}
 
 		return $stmt->fetchObject('\Lcvs\Entity\Movie');
 	}
@@ -48,6 +53,7 @@ class Movie
 	 * Insert a record to the database
 	 *
 	 * @param \Lcvs\Entity\Movie $movie
+	 * @throws \Fw\Core\Exception\Database
 	 */
 	public function insert(\Lcvs\Entity\Movie $movie)
 	{
@@ -62,7 +68,10 @@ class Movie
 		$stmt->bindValue(':title', $movie->getTitle());
 		$stmt->bindValue(':price', $movie->getPrice());
 		$stmt->bindValue(':amount', $movie->getAmount(), \PDO::PARAM_INT);
-		$stmt->execute();
+		$result = $stmt->execute();
+		if (!$result) {
+			throw new Database('Database error', 500);
+		}
 
 		$movie->setId($this->conn->lastInsertId());
 	}
@@ -71,6 +80,7 @@ class Movie
 	 * Update a record
 	 *
 	 * @param \Lcvs\Entity\Movie $movie
+	 * @throws \Fw\Core\Exception\Database
 	 */
 	public function update(\Lcvs\Entity\Movie $movie)
 	{
@@ -90,13 +100,17 @@ class Movie
 		$stmt->bindValue(':price', $movie->getPrice());
 		$stmt->bindValue(':amount', $movie->getAmount(), \PDO::PARAM_INT);
 		$stmt->bindValue(':id', $movie->getId(), \PDO::PARAM_INT);
-		$stmt->execute();
+		$result = $stmt->execute();
+		if (!$result) {
+			throw new Database('Database error', 500);
+		}
 	}
 
 	/**
 	 * Delete a movie
 	 *
 	 * @param \Lcvs\Entity\Movie $movie
+	 * @throws \Fw\Core\Exception\Database
 	 * @return bool
 	 */
 	public function delete(\Lcvs\Entity\Movie $movie)
@@ -109,13 +123,19 @@ class Movie
 		$stmt = $this->conn->prepare($sql);
 		$stmt->bindValue(':id', $movie->getId());
 
-		return $stmt->execute();
+		$result = $stmt->execute();
+		if (!$result) {
+			throw new Database('Database error', 500);
+		}
+
+		return $result;
 	}
 
 	/**
 	 * Search for movies
 	 *
 	 * @param array $search
+	 * @throws \Fw\Core\Exception\Database
 	 * @return \Lcvs\Entity\Movie[]
 	 */
 	public function search($search)
@@ -145,8 +165,11 @@ class Movie
 			$params[':movieTitle'] = '%'.$search['movieTitle'].'%';
 		}
 
-		$stmt = $this->conn->prepare($sql);
-		$stmt->execute($params);
+		$stmt   = $this->conn->prepare($sql);
+		$result = $stmt->execute();
+		if (!$result) {
+			throw new Database('Database error', 500);
+		}
 
 		return $stmt->fetchAll(\PDO::FETCH_OBJ);
 	}
